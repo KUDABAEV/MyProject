@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState} from "react";
 import {useLocation} from "react-router-dom";
 import './style.scss';
 import LoginPage from "./login";
@@ -6,11 +6,20 @@ import RegisterPage from "./register";
 import {Box} from "@mui/material";
 
 const AuthRootComponent = () =>{
+
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+
     const location = useLocation()
+
+    const handleSubmit = async (e: {preventDefault: () => void}) => {
+        e.preventDefault();
+        console.log(email)
+    }
 
     return (
         <div className='root'>
-            <div className="form">
+            <form className="form" onSubmit={handleSubmit}>
                 <Box
                     display='flex'
                     justifyContent='center'
@@ -23,10 +32,10 @@ const AuthRootComponent = () =>{
                     boxShadow={'5px 5px 10px #ccc'}
                 >
                     {
-                    location.pathname === '/login' ? <LoginPage /> : location.pathname === '/register' ? <RegisterPage /> : null
+                    location.pathname === '/login' ? <LoginPage setEmail={setEmail} setPassword={setPassword}/> : location.pathname === '/register' ? <RegisterPage /> : null
                     }
                 </Box>
-            </div>
+            </form>
         </div>
     )
 }
